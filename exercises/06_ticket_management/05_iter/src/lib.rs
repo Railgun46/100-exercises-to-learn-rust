@@ -1,3 +1,4 @@
+use std::slice::Iter;
 use ticket_fields::{TicketDescription, TicketTitle};
 
 // TODO: Provide an `iter` method that returns an iterator over `&Ticket` items.
@@ -34,6 +35,11 @@ impl TicketStore {
     pub fn add_ticket(&mut self, ticket: Ticket) {
         self.tickets.push(ticket);
     }
+
+    pub(crate) fn iter(&self) -> Iter<Ticket> {
+        self.tickets.iter()
+    }
+
 }
 
 #[cfg(test)]
@@ -60,6 +66,7 @@ mod tests {
         store.add_ticket(ticket);
 
         let tickets: Vec<&Ticket> = store.iter().collect();
+        println!("tickets: {:?}", tickets);
         let tickets2: Vec<&Ticket> = store.iter().collect();
         assert_eq!(tickets, tickets2);
     }
